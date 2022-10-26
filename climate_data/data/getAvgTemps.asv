@@ -26,7 +26,8 @@ function [ret_temp, min_date, ws] = getAvgTemps(state)
         mmdd = date_str(5:);
         % This creates an index that tracks what year we're collecting data
         % for
-        yyyy = str2num(date_str(1:4));
+        yyyy = str2int(date_str(1:4));
+        y_index = yyyy - 1973 + 1;
         if ~strcmp(mmdd, '0229') % We will exclude leap year data for simplicity
             if i==1 && min_date < dates(i)
                 % Then the latest first recorded date happens after 19730101
@@ -35,11 +36,7 @@ function [ret_temp, min_date, ws] = getAvgTemps(state)
             elseif stations(i-1) ~= stations(i) % Then we are looking at data for a new weather station
                 % Update avg_temp indices
                 cols = cols + 1;
-                if dates(i) ~= 19730101 % then our rows index needs to be greater than 1
-                    
-                else
-                    rows = 1;
-                end
+                rows = 1;
                 if(min_date < dates(i)) % Then the latest first recorded date happens after min_date
                     min_date = dates(i);
                 end
