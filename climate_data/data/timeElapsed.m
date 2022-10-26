@@ -1,4 +1,8 @@
-% Number of days between init and term including init and term
+% Computes the number of days between init and term including day of init 
+% and term
+% @Params: should be YYYYMMDD formatted ints
+% @Return: the number of days between init and term including the day of
+% init and term
 function [time] = timeElapsed(init, term)
     yyyy_init = floor(init/10000);
     yyyy_term = floor(term/10000);

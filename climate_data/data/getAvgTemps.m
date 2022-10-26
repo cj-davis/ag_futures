@@ -36,7 +36,7 @@ function [ret_temp, min_date, ws] = getAvgTemps(state)
                 % Update avg_temp indices
                 cols = cols + 1;
                 if dates(i) ~= 19730101 % then our rows index needs to be greater than 1
-                    
+                    rows = timeElapsed(19730101, dates(i));
                 else
                     rows = 1;
                 end
