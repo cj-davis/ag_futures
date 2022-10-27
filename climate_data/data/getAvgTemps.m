@@ -1,13 +1,15 @@
 % Still need to work on ws_per_year variable, filling the avg_temp with zeros
 % where we don't have data, and then aggregating the data for the ret_temp
 % vector
+% Noticed a problem with the data file for Colorado. I need to investigate
+% to see if this problem occurs in other data files.
 
 function [ret_temp, min_date, ws] = getAvgTemps(state)
     % Open the state's excel file (note that this requires the data file to
     % be in the working directory)
     data = readtable(strcat(state, '.xlsx'));
     dates = table2array(data(:, "YEARMODA"));
-    stations = table2array(data(:,"WBAN"));
+    stations = table2array(data(:,"STN"));
     temps = table2array(data(:,"TEMP"));
     min_date = 19730101;
     ws = unique(stations);
@@ -31,14 +33,14 @@ function [ret_temp, min_date, ws] = getAvgTemps(state)
             if i==1 && min_date < dates(i)
                 % Then the latest first recorded date happens after 19730101
                 min_date = dates(i);
-            elseif i==1
-                if dates(i) ~= 19730101 % then our rows index needs to be greater than 1
-                    rows = timeElapsed(19730101, dates(i));
-                end
+            elseif i==1 && dates(i) ~= 19730101 
+                % then our rows index needs to be greater than 1
+                rows = timeElapsed(19730101, dates(i));
+            end
             
-            elseif stations(i-1) ~= stations(i) % Then we are looking at data for a new weather station
+            if i>1 && (dates(i-1) > dates(i) || stations(i-1) ~= stations(i))
+            % Then we are looking at data for a new weather station
                 % Update avg_temp indices
-                fprintf('I activated!\n');
                 cols = cols + 1;
                 if dates(i) ~= 19730101 % then our rows index needs to be greater than 1
                     rows = timeElapsed(19730101, dates(i));
