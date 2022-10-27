@@ -10,7 +10,10 @@ states=['IA', 'IL', 'NE', 'MN', 'IN', 'KS', 'SD', 'OH', 'MO', 'WI', 'MI', 'KY', 
 
 %% Raw Data
 %avg_tmp = getAvgTemp(states(1:4));
-[temps, minDate, ws] = getAvgTemps('CO');
+% co_data = readtable('CO.xlsx');
+% [temps, minDate, ws] = getAvgTemps(co_data);
+str = 'Hello, World!';
+sub_str = str(1:)
 
 %% Log-Differenced Data
 
